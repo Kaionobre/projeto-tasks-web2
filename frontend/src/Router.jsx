@@ -2,13 +2,14 @@
 
 // Importa os componentes necessários do react-router-dom e os componentes da aplicação
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import PostList from './components/PostList'
-import CreatePost from './components/EditPost'
+import TaskList from './components/TaskList'
+import CreateTask from "./components/CreateTask";
 import Login from './components/Login'
 import PrivateRoute from './components/PrivateRoute'
-import EditPost from './components/EditPost'
-import ReadPost from './components/ReadPost'
+import EditTask from './components/EditTask'
+import ReadTask from './components/ReadTask'
 
+// Define o componente AppRouter que contém as rotas da aplicação
 // Define o componente AppRouter que contém as rotas da aplicação
 function AppRouter() {
   return (
@@ -17,21 +18,21 @@ function AppRouter() {
       {/* Define as rotas da aplicação */}
       <Routes>
         {/* Rota para a página de login (pública) */}
-        <Route path="/" element={<Login/>} />
+        <Route path="/" element={<Login />} />
         {/* Rotas protegidas que requerem autenticação */}
         <Route element={<PrivateRoute />}>
           {/* Rota para a listagem de tasks */}
-          <Route path="/task" element={<PostList/>} />
-          {/* Rota para criar um novo post */}
-          <Route path="/posts/create" element={<CreatePost />} />
-          {/* Rota para editar um post existente */}
-          <Route path="/posts/:postId/edit" element={<EditPost />} />
-          {/* Rota para visualizar os detalhes de um post */}
-          <Route path="/posts/:postId/detail" element={<ReadPost />} />
+          <Route path="/tasks" element={<TaskList />} />
+          {/* Rota para criar uma nova task */}
+          <Route path="/tasks/create" element={<CreateTask />} />
+          {/* Rota para editar uma task existente */}
+          <Route path="/tasks/:taskId/edit" element={<EditTask />} />
+          {/* Rota para visualizar os detalhes de uma task */}
+          <Route path="/tasks/:taskId/detail" element={<ReadTask />} />
         </Route>
       </Routes>
     </Router>
-  )
+  );
 }
 
 export default AppRouter

@@ -1,6 +1,6 @@
 // Importa os hooks useState e useEffect do React para gerenciar o estado e efeitos colaterais, respectivamente,
 // e o módulo api para fazer solicitações HTTP.
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import api from '../api'
 
 // Importa o componente Link do react-router-dom para navegação entre rotas.
@@ -29,10 +29,11 @@ function TaskList() {
 
   // Efeito que é executado uma vez após a renderização inicial do componente.
   useEffect(() => {
-    api.get('/tasks') // substitua pela rota correta
+    console.log("teste")
+    api.get('/tasks/') // substitua pela rota correta 
       .then(response => {
-        // Verifique se response.data é um array antes de definir o estado
-        setTasks(Array.isArray(response.data) ? response.data : []);
+        console.log("vaaotacas");
+        setTasks(response.data.results)
       })
       .catch(error => {
         console.error('Erro ao buscar tasks:', error);

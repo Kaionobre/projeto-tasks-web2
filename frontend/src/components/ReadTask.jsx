@@ -15,7 +15,7 @@ function ReadTask() {
 
   // Define estados para armazenar o título, conteúdo e imagem da task.
   const [title, setTitle] = useState('')
-  const [content, setContent] = useState('')
+  const [description, setDescription] = useState('')
   const [image, setImage] = useState('')
 
   // Efeito que é executado quando o taskId é alterado.
@@ -25,7 +25,7 @@ function ReadTask() {
       .then(response => {
         // Atualiza o estado com os detalhes da task obtidos da API.
         setTitle(response.data.title)
-        setContent(response.data.content)
+        setDescription(response.data.description)
         setImage(response.data.image)
       })
       .catch(error => {
@@ -45,7 +45,7 @@ function ReadTask() {
       {/* Título da task */}
       <h2>{title}</h2>
       {/* Conteúdo da task */}
-      <p>{content}</p>
+      <p>{description}</p>
       {/* Imagem da task, se existir */}
       {image && <img src={image} alt="Imagem da Task" className="task-image" />}
     </div>

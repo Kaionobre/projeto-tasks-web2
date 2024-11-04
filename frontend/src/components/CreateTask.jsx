@@ -1,60 +1,120 @@
-// Importa os hooks useState e useEffect do React para gerenciar o estado e efeitos colaterais,
-// e o hook useNavigate do react-router-dom para navegação entre rotas.
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Importa o módulo api para fazer solicitações HTTP
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams, Link } from 'react-router-dom'
+import api from '../api'
+import '../styles/EditTask.css'
 
-// Importa o arquivo de estilo CSS.
-import '../styles/CreateTask.css';
-
-// Define o componente CreateTask.
 function CreateTask() {
-  // Define estados para armazenar o título e a descrição da tarefa.
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const navigate = useNavigate(); // Obtém a função de navegação do hook useNavigate
+  const { postId } = useParams()
+  const navigate = useNavigate()
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+  const [categories, setCategories] = useState([]) // Para armazenar categorias
+  const [priorities, setPriorities] = useState([]) // Para armazenar prioridades
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedPriority, setSelectedPriority] = useState('')
+  
+  useEffect(() => {
+    // Buscar categorias e prioridades
+    const fetchCategoriesAndPriorities = async () => {
+      try {
+        const categoriesResponse = await api.get('/categories/') 
+        const prioritiesResponse = await api.get('/priorities/') 
 
-  // Função para lidar com o envio do formulário.
+        console.log('Categorias:', categoriesResponse.data); // Log das categorias
+        console.log('Prioridades:', prioritiesResponse.data); // Log das prioridades
+
+        // Acesse o array results para armazenar as categorias e prioridades
+        setCategories(categoriesResponse.data.results);
+        setPriorities(prioritiesResponse.data.results);
+      } catch (error) {
+        console.error('Erro ao buscar categorias e prioridades:', error)
+      }
+    }
+
+    fetchCategoriesAndPriorities()
+  }, [])
+
+  useEffect(() => {
+    if (!postId) return
+  
+    api.get(`/tasks/${postId}/`)
+      .then(response => {
+        setTitle(response.data.title)
+        setContent(response.data.description)
+        setSelectedCategory(response.data.category)
+        setSelectedPriority(response.data.priority)
+      })
+      .catch(error => {
+        console.error('Erro ao buscar detalhes do post:', error)
+      })
+  }, [postId])  
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Evita o comportamento padrão de recarregar a página
+    e.preventDefault();
     try {
-      // Faz uma solicitação POST para criar uma nova tarefa.
-      await api.post('/tasks/', { title, description });
-      alert('Tarefa criada com sucesso!'); // Alerta de sucesso
-      navigate('/tasks'); // Redireciona para a lista de tarefas após a criação
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', content);
+      formData.append('completed', false);
+      formData.append('category', selectedCategory);
+      formData.append('priority', selectedPriority);
+
+      await api.post('/tasks/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+
+      alert('Tarefa criada com sucesso!');
+      navigate('/tasks');
     } catch (error) {
       console.error('Erro ao criar tarefa:', error);
-      alert('Erro ao criar tarefa.'); // Alerta de erro
     }
-  };
+  }
 
-  // Retorna a interface do componente CreateTask.
   return (
-    <div className="create-task-container">
-      <h1>Criar Nova Tarefa</h1>
+    <div className="edit-post-container">
+      <h1>{postId ? 'Editar Post' : 'Criar Novo Post'}</h1>
       <form onSubmit={handleSubmit}>
-        <div>
-          <input
-            type="text"
-            placeholder="Título"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)} // Atualiza o estado do título
-            required // Torna o campo obrigatório
-          />
-        </div>
-        <div>
-          <textarea
-            placeholder="Descrição"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)} // Atualiza o estado da descrição
-            required // Torna o campo obrigatório
-          />
-        </div>
-        <button type="submit">Criar Tarefa</button>
+        <input 
+          type="text" 
+          placeholder="Título" 
+          value={title} 
+          onChange={(e) => setTitle(e.target.value)} 
+        />
+        <textarea 
+          placeholder="Conteúdo" 
+          value={content} 
+          onChange={(e) => setContent(e.target.value)} 
+        />
+
+        <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
+         <option value="">Selecione uma Categoria</option>
+       {categories.length > 0 ? (
+          categories.map(category => (
+         <option key={category.id} value={category.id}>{category.name}</option>
+         ))
+  ) : (
+    <option value="" disabled>Carregando categorias...</option>
+  )}
+</select>
+
+        <select value={selectedPriority} onChange={(e) => setSelectedPriority(e.target.value)}>
+        <option value="">Selecione uma Prioridade</option>
+        {priorities.length > 0 ? (
+          priorities.map(priority => (
+      <option key={priority.id} value={priority.id}>{priority.level}</option>
+    ))
+  ) : (
+    <option value="" disabled>Carregando prioridades...</option>
+  )}
+</select>
+
+        <button className="save-button" type="submit">{postId ? 'Salvar' : 'Criar'}</button>
+        <Link to="/tasks">
+          <button type="button" className="back-button">Voltar para Listagem</button>
+        </Link>
       </form>
     </div>
-  );
+  )
 }
 
-// Exporta o componente CreateTask.
-export default CreateTask;
+export default CreateTask

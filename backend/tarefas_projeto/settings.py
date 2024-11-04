@@ -104,7 +104,7 @@ REST_FRAMEWORK = {
 "rest_framework.pagination.PageNumberPagination"
 ,
     "NON_FIELD_ERRORS_KEY" : "error",
-    "PAGE_SIZE" : 1
+    "PAGE_SIZE" : 3
 }
 
 

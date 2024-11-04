@@ -20,3 +20,14 @@
 2024-11-02 14:15:42,650 -INFO - viewsets - Prioridade criada: 1
 2024-11-02 14:15:55,338 -INFO - viewsets - Tarefa criada: Levar o cachorro para passear. - Categoria: importante - Prioridade: 1
 2024-11-02 14:16:05,404 -INFO - viewsets - Categoria criada: importante
+2024-11-03 20:42:41,561 -INFO - viewsets - Prioridade criada: Fácil
+2024-11-03 20:42:59,649 -INFO - viewsets - Prioridade criada: Médio
+2024-11-03 20:43:14,551 -INFO - viewsets - Prioridade criada: Difícil
+2024-11-03 20:44:23,809 -INFO - viewsets - Categoria criada: Estudo
+2024-11-03 20:44:31,767 -INFO - viewsets - Categoria criada: Lazer
+2024-11-03 20:44:37,259 -INFO - viewsets - Categoria criada: Rotina
+2024-11-03 20:47:17,559 -INFO - viewsets - Tarefa criada: Jogar com os Amigos - Categoria: Lazer - Prioridade: Difícil
+2024-11-03 20:47:42,648 -INFO - viewsets - Tarefa criada: Estudar Programação - Categoria: Estudo - Prioridade: Difícil
+2024-11-03 20:48:16,465 -INFO - viewsets - Tarefa criada: Alimentação - Categoria: Rotina - Prioridade: Médio
+2024-11-03 21:36:26,474 -INFO - viewsets - Tarefa criada: Vasco - Categoria: Estudo - Prioridade: Fácil
+2024-11-03 21:53:01,381 -INFO - viewsets - Tarefa criada: Vasco Rumo A libertadores - Categoria: Rotina - Prioridade: Fácil

@@ -45,7 +45,7 @@ function TaskList() {
       {/* Cabeçalho da lista de tasks com um botão para criar uma nova task */}
       <div className="header">
         <h1>Lista de Tasks</h1>
-        <Link to="/task/create" className="create-button">Criar Nova Task</Link> {/* Adiciona um link para criar uma nova task */}
+        <Link to="/tasks/create" className="create-button">Criar Nova Task</Link> {/* Adiciona um link para criar uma nova task */}
       </div>
       {/* Lista de tasks */}
       <ul>
@@ -56,7 +56,7 @@ function TaskList() {
             <Link to={`/tasks/${task.id}/detail`} className="task-link-name">{task.title}</Link>
             {/* Botões de ação para editar e excluir a task */}
             <div className="actions">
-              <Link to={`/task/${task.id}/edit`} className="task-link">Editar</Link>
+              <Link to={`/tasks/${task.id}/edit`} className="task-link">Editar</Link>
               <button onClick={() => handleDelete(task.id)} className="delete-button">Deletar</button>
             </div>
           </li>

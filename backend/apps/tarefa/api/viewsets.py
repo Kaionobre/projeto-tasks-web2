@@ -8,7 +8,7 @@ logger = logging.getLogger('custom')
 
 
 class TaskViewSet(viewsets.ModelViewSet):
-    queryset = models.Task.objects.all()
+    queryset = models.Task.objects.filter(is_active=True)
     serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated]
 

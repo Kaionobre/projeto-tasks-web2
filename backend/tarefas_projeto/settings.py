@@ -18,7 +18,7 @@ import environ
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, 'env/.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
@@ -105,7 +105,7 @@ REST_FRAMEWORK = {
 "rest_framework.pagination.PageNumberPagination"
 ,
     "NON_FIELD_ERRORS_KEY" : "error",
-    "PAGE_SIZE" : 3
+    "PAGE_SIZE" : 10
 }
 
 

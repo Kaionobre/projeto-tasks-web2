@@ -5,9 +5,11 @@ import Login from './components/Login';
 import PrivateRoute from './components/PrivateRoute';
 import EditTask from './components/EditTask';
 import ReadTask from './components/ReadTask';
+import CreateCategory from './components/CreateCategory';
+import CreatePriority from './components/CreatePriority';
 
 function AppRouter() {
-  console.log('Iniciando as rotas'); // Adicionado para verificar inicialização
+  console.log('Iniciando as rotas');
   return (
     <Router>
       <Routes>
@@ -17,6 +19,8 @@ function AppRouter() {
           <Route path="/tasks/create" element={<CreateTask />} />
           <Route path="/tasks/:taskId/edit" element={<EditTask />} />
           <Route path="/tasks/:taskId/detail" element={<ReadTask />} />
+          <Route path="/categories/create" element={<CreateCategory />} />
+          <Route path="/priorities/create" element={<CreatePriority />} />
         </Route>
       </Routes>
     </Router>

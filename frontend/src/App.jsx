@@ -8,6 +8,7 @@ import Router from './AppRouter'; // Importação do componente Router
 import { BrowserRouter as BrowserRoute, Routes, Route } from 'react-router-dom';
 
 
+
 // Define o componente principal da aplicação, App.
 function App() {
   return (

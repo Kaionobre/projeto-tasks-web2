@@ -3,18 +3,23 @@
   max-width: 700px;
   margin: 0 auto;
   padding: 20px;
+  text-align: center; /* Center the content */
 }
+
 
 .post-list-container h1 {
   text-align: center;
   margin-bottom: 20px;
+  font-size: 15px;
 }
+
 
 /* Remover o ponto (bullet) da lista */
 .post-list-container ul {
   list-style-type: none; /* Adiciona esta linha */
   padding: 0;
 }
+
 
 .post-item {
   margin-bottom: 10px;
@@ -24,6 +29,7 @@
   background-color: #f9f9f9;
 }
 
+
 .post-link-name {
   color: #007bff;
   font-weight: 700;
@@ -31,6 +37,7 @@
   margin-right: 10px;
   font-size: 18px;
 }
+
 
 .post-link {
   background-color: #eb9e34;
@@ -42,10 +49,12 @@
   margin-right: 5px;
 }
 
+
 .post-link:hover {
   color: #fff;
   background-color: #c27f21;
 }
+
 
 .delete-button {
   background-color: #dc3545;
@@ -54,15 +63,19 @@
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
+ 
 }
+
 
 .delete-button:hover {
   background-color: #c82333;
 }
 
+
 .actions {
   float: right;
 }
+
 
 .post-list-container {
   max-width: 600px;
@@ -70,16 +83,27 @@
   padding: 20px;
 }
 
+
 .header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
+
 
 .header h1 {
   margin: 0;
+  font-size: 30px;
+  margin-bottom: 20px;
 }
+
+
+.h2 h2 {
+  font-size: 15px;
+  text-align: center;
+  margin: 0;
+  margin-top: 20px;
+}
+
 
 .create-button {
   background-color: #28a745;
@@ -89,9 +113,67 @@
   padding: 8px 15px;
   text-decoration: none;
   margin: 10px 0 0 10px;
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+
+
+
+
 }
+
 
 .create-button:hover {
   background-color: #218838;
   color: #fff;
+}
+
+
+body {
+  margin: 0; /* Remove margens padrão do corpo */
+}
+
+
+.navbar {
+  background-color: #4CAF50;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0; /* Adiciona left: 0 para garantir que a navbar comece na borda esquerda */
+  width: 100%;
+  z-index: 1000;
+}
+
+
+.navbar {
+  background-color: #4CAF50;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex; /* Use Flexbox for flexible layout */
+  justify-content: center; /* Center the items horizontally */
+  gap: 10px;
+}
+
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  flex: 1;
+  text-align: center;
+}
+
+
+.navbar a:hover {
+  background-color: #45a049;
+}
+/* Adiciona um espaçamento ao conteúdo da página para não ficar escondido atrás da navbar */
+.content {
+  padding-top: 70px; /* Ajuste conforme a altura da navbar */
 }

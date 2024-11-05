@@ -49,7 +49,6 @@ function EditTask() {
         // Atualiza o estado com os detalhes da task.
         setTitle(response.data.title);
         setDescription(response.data.description);
-        setCompleted(response.data.completed)
         setSelectedCategory(response.data.category); // Supondo que a resposta tenha o ID da categoria
         setSelectedPriority(response.data.priority); // Supondo que a resposta tenha o ID da prioridade
       })
@@ -62,11 +61,24 @@ function EditTask() {
     return () => {
       setTitle('');
       setDescription('');
-      setCompleted('');
       setSelectedCategory('');
       setSelectedPriority('');
       setError(null);
     };
+  }, [taskId]);
+
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      try {
+        const response = await api.get('tasks/${taskId}/');
+        setCompleted(response.data.completed); // Inicializa o estado com o valor do backend
+      } catch (error) {
+        console.error("Erro ao buscar detalhes da task:", error);
+      }
+    };
+
+    fetchTask();
   }, [taskId]);
 
   // Efeito para buscar categorias e prioridades quando o componente é montado
@@ -85,6 +97,7 @@ function EditTask() {
       }
     };
 
+
     fetchCategoriesAndPriorities();
   }, []);
 
@@ -95,8 +108,14 @@ function EditTask() {
 
    const handleSave = async () => {
     try {
-      const response = await api.patch(`/tasks/${taskId}/`, { completed });
+      const response = await api.patch(`tasks/${taskId}/`, {
+        completed: completed,
+      });
+      if (response.status === 200) {
+        console.log("Task atualizada com sucesso!");
+      }
     } catch (error) {
+      console.error("Erro ao salvar a tarefa:", error);
     }
   };
 
@@ -120,8 +139,9 @@ function EditTask() {
 
       // Verifica se o taskId existe para determinar se é uma edição ou criação de task.
       if (taskId) {
+        handleSave()
         // Se taskId existe, faz uma solicitação PUT para atualizar a task existente.
-        await api.put(`/tasks/${taskId}/`, formData, {
+        await api.patch(`/tasks/${taskId}/`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
         alert('Task atualizada com sucesso!');
@@ -162,8 +182,29 @@ function EditTask() {
           onChange={(e) => setDescription(e.target.value)} 
           required // Campo obrigatório
         />
+
+        <select className='editCategoria'
+          value={selectedCategory} 
+          onChange={(e) => setSelectedCategory(e.target.value)} 
+          required 
+        >
+          <option value="" disabled>Selecione uma Categoria</option>
+          {categories.map(category => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          ))}
+        </select>
+        <select 
+          value={selectedPriority} 
+          onChange={(e) => setSelectedPriority(e.target.value)} 
+          required 
+        >
+          <option value="" disabled>Selecione uma Prioridade</option>
+          {priorities.map(priority => (
+            <option key={priority.id} value={priority.id}>{priority.level}</option>
+          ))}
+        </select>
+
     <div>
-      <h1>Editar Tarefa</h1>
       <label>
         Tarefa Completa:
         <input
@@ -174,28 +215,7 @@ function EditTask() {
       </label>
     </div>
 
-        <select 
-          value={selectedCategory} 
-          onChange={(e) => setSelectedCategory(e.target.value)} 
-          required // Campo obrigatório
-        >
-          <option value="" disabled>Selecione uma Categoria</option>
-          {categories.map(category => (
-            <option key={category.id} value={category.id}>{category.name}</option>
-          ))}
-        </select>
-        <select 
-          value={selectedPriority} 
-          onChange={(e) => setSelectedPriority(e.target.value)} 
-          required // Campo obrigatório
-        >
-          <option value="" disabled>Selecione uma Prioridade</option>
-          {priorities.map(priority => (
-            <option key={priority.id} value={priority.id}>{priority.level}</option>
-          ))}
-        </select>
-        <button 
-          onClick={handleSave}
+        <button
           className="save-button" 
           type="submit" 
           disabled={!title || !description || !selectedCategory || !selectedPriority} // Desabilita se os campos obrigatórios não estiverem preenchidos

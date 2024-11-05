@@ -1,0 +1,37 @@
+.button-container {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+    margin-top: 10px; /* Espaçamento acima dos botões */
+  }
+  
+  .create-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .create-button:hover {
+    background-color: #218838;
+    color: #fff;
+  }
+  
+  .back-button {
+    background-color: #292929;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .back-button:hover {
+    background-color: #0056b3;
+  }
+  

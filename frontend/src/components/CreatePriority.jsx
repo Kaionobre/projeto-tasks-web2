@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Adicionado Link para evitar erro de importação
 import api from '../api';
+import '../styles/CreatePriority.css';  
 
 function CreatePriority() {
   const [level, setLevel] = useState('');
@@ -27,7 +28,13 @@ function CreatePriority() {
           value={level}
           onChange={(e) => setLevel(e.target.value)}
         />
-        <button type="submit">Criar Prioridade</button>
+
+        <div className="button-container">
+          <button type="submit" className="create-button">Criar Prioridade</button>
+          <Link to="/tasks" className="back-link">
+            <button type="button" className="back-button">Voltar para Listagem</button>
+          </Link>
+        </div>
       </form>
     </div>
   );

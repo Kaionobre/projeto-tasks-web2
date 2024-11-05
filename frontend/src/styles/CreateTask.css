@@ -1,0 +1,94 @@
+/* Container de estilo flexível */
+
+/* Definindo largura consistente para todos os campos */
+input[name="titulo"],
+textarea,
+select {
+  width: 100%; 
+  max-width: 600px; 
+  box-sizing: border-box;
+}
+
+
+.custom-select-container select {
+  margin-bottom: 15px; 
+}
+
+
+
+.custom-select-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  
+/* Estilização para todos os campos de entrada, textarea e select */
+input[type="text"],
+textarea,
+select {
+  background-color: #222; /* Cor de fundo igual aos outros campos */
+  color: #fff; /* Cor do texto */
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Placeholder ou texto inicial com cor mais clara */
+input[type="text"]::placeholder,
+textarea::placeholder,
+select option[value=""] {
+  color: white; 
+}
+
+  
+select {
+    width: 600px;
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #222;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    margin-bottom: 20px;
+    color: white;
+}
+  
+  /* Efeito ao passar o mouse */
+select:hover {
+    border-color: #888;
+}
+  
+  /* Ícone de seta customizado */
+select::after {
+    content: '▼';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    color: #888;
+    pointer-events: none;
+  }
+  
+  /* Estilo para as opções */
+option {
+    color: #333;
+    padding: 10px;
+  }
+  
+  /* Opção desativada */
+option:disabled {
+    color: #bbb;
+  }
+
+option{
+    color: white;
+}
+  

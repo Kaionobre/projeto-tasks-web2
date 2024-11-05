@@ -1,18 +1,11 @@
 /* src/styles/EditPost.css */
-.edit-post-container {
+.edit-task-container {
   max-width: 600px;
   margin: 0 auto;
   padding: 20px;
 }
 
-.post-image {
-  max-width: 500px;
-  margin-bottom: 20px;
-}
 
-.post-image img {
-  max-width: 100%;
-}
 
 input[type="text"],
 textarea {

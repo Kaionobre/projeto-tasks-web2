@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import api from '../api'
-import '../styles/EditTask.css'
+import '../styles/CreateTask.css'
 
 function CreateTask() {
   const { postId } = useParams()
@@ -71,12 +71,13 @@ function CreateTask() {
   }
 
   return (
-    <div className="edit-post-container">
+    <div className="edit-task-container">
       <h1>{postId ? 'Editar Post' : 'Criar Novo Post'}</h1>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 
           placeholder="Título" 
+          name='titulo'
           value={title} 
           onChange={(e) => setTitle(e.target.value)} 
         />

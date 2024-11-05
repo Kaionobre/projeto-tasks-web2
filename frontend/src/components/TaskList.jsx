@@ -43,9 +43,18 @@ function TaskList() {
   // Retorna a interface do componente TaskList.
   return (
     <div className="task-list-container">
+     
+      <div class="navbar">
+            <a href="#criar-task">Listar Task</a>
+            <a href="#criar-categoria">Listar Categoria</a>
+            <a href="#sair">Listar Prioridade</a></div>
       {/* Cabeçalho da lista de tasks com um botão para criar uma nova task */}
       <div className="header">
-        <h1>Lista de Tasks</h1>
+        <h1>Sistema Gerenciador de Tarefas</h1>
+        <div className="h2">
+        <h2>Em um mundo cada vez mais acelerado, manter a organização é essencial para o sucesso pessoal e profissional.
+        Nosso sistema gerenciador de tarefas online oferece uma solução simples e eficaz para ajudar você a manter o foco e a produtividade.
+        Com uma interface intuitiva e recursos robustos, você pode criar, priorizar e acompanhar suas tarefas diárias de forma fácil e rápida.</h2></div>
         <div className="header-links">
           <Link to="/tasks/create" className="create-button">Criar Nova Task</Link>
           <Link to="/categories/create" className="create-button">Criar Categoria</Link>
@@ -64,12 +73,15 @@ function TaskList() {
               <Link to={`/tasks/${task.id}/edit`} className="task-link">Editar</Link>
               <button onClick={() => handleDelete(task.id)} className="delete-button">Deletar</button>
             </div>
+       
           </li>
+         
         ))}
       </ul>
     </div>
   )
 }
+
 
 // Exporta o componente TaskList.
 export default TaskList

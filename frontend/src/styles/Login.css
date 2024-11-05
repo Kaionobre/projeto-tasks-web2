@@ -11,6 +11,7 @@
 .login-container h1 {
   text-align: center;
   margin-bottom: 20px;
+  color: #28a745;
 }
 
 .login-container input {
@@ -26,11 +27,11 @@
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #28a745;
   color: #fff;
   cursor: pointer;
 }
 
 .login-container button:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }

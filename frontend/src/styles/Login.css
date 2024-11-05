@@ -1,5 +1,4 @@
-/* src/styles/Login.css */
-.login-container {
+.login-container-center {
   max-width: 300px;
   margin: 0 auto;
   padding: 20px;
@@ -8,21 +7,35 @@
   background-color: #f9f9f9;
 }
 
-.login-container h1 {
+
+.login-container-center h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #28a745;
+  color: #218838;
 }
 
-.login-container input {
+
+.userlogin {
   width: 90%;
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color: #1c1c1c;
 }
 
-.login-container button {
+.userpassword {
+  width: 93%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #1c1c1c;
+  height: 18px;
+}
+
+
+.login-container-center button {
   width: 100%;
   padding: 10px;
   border: none;
@@ -32,6 +45,13 @@
   cursor: pointer;
 }
 
+
 .login-container button:hover {
   background-color: #218838;
 }
+
+input::placeholder {
+  color: white; 
+  opacity: 1; 
+}
+

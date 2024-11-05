@@ -20,7 +20,7 @@ function EditTask() {
   // Define estados para o título, descrição, imagem, imagem atual, categoria e prioridade da task.
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [completed, setCompleted] = useState(null);
+  const [completed, setCompleted] = useState(false);
   const [categories, setCategories] = useState([]); // Para armazenar categorias
   const [priorities, setPriorities] = useState([]); // Para armazenar prioridades
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -71,7 +71,7 @@ function EditTask() {
   useEffect(() => {
     const fetchTask = async () => {
       try {
-        const response = await api.get('tasks/${taskId}/');
+        const response = await api.get(`tasks/${taskId}/`);
         setCompleted(response.data.completed); // Inicializa o estado com o valor do backend
       } catch (error) {
         console.error("Erro ao buscar detalhes da task:", error);

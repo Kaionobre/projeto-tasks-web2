@@ -72,7 +72,7 @@ function CreateTask() {
 
   return (
     <div className="edit-task-container">
-      <h1>{postId ? 'Editar Post' : 'Criar Novo Post'}</h1>
+      <h1>{postId ? 'Editar Post' : 'Criar Nova Task'}</h1>
       <form onSubmit={handleSubmit}>
         <input 
           type="text" 

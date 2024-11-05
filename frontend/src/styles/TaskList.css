@@ -1,9 +1,8 @@
-/* src/components/PostList.css */
 .post-list-container {
   max-width: 700px;
   margin: 0 auto;
   padding: 20px;
-  text-align: center; /* Center the content */
+  text-align: center; 
 }
 
 
@@ -14,9 +13,9 @@
 }
 
 
-/* Remover o ponto (bullet) da lista */
+
 .post-list-container ul {
-  list-style-type: none; /* Adiciona esta linha */
+  list-style-type: none; 
   padding: 0;
 }
 
@@ -30,13 +29,8 @@
 }
 
 
-.post-link-name {
-  color: #007bff;
-  font-weight: 700;
-  text-decoration: none;
-  margin-right: 10px;
-  font-size: 18px;
-}
+
+
 
 
 .post-link {
@@ -114,13 +108,10 @@
   text-decoration: none;
   margin: 10px 0 0 10px;
   display: flex;
-  justify-content: center; /* Center the buttons horizontally */
+  justify-content: center; 
   gap: 10px;
   flex-direction: column;
   align-items: center;
-
-
-
 
 }
 
@@ -132,7 +123,7 @@
 
 
 body {
-  margin: 0; /* Remove margens padrão do corpo */
+  margin: 0; 
 }
 
 
@@ -141,7 +132,7 @@ body {
   overflow: hidden;
   position: fixed;
   top: 0;
-  left: 0; /* Adiciona left: 0 para garantir que a navbar comece na borda esquerda */
+  left: 0; 
   width: 100%;
   z-index: 1000;
 }
@@ -155,8 +146,8 @@ body {
   left: 0;
   width: 100%;
   z-index: 1000;
-  display: flex; /* Use Flexbox for flexible layout */
-  justify-content: center; /* Center the items horizontally */
+  display: flex; 
+  justify-content: center; 
   gap: 10px;
 }
 
@@ -169,11 +160,76 @@ body {
   text-align: center;
 }
 
-
 .navbar a:hover {
   background-color: #45a049;
 }
-/* Adiciona um espaçamento ao conteúdo da página para não ficar escondido atrás da navbar */
+
 .content {
-  padding-top: 70px; /* Ajuste conforme a altura da navbar */
+  padding-top: 70px; 
+}
+
+.task-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 1px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border: 1px solid #218838;
+}
+
+
+.task-card-title {
+  font-size: 1rem;
+  font-weight: light;
+  color: #333;
+  text-decoration: none;
+  align-items: center;
+}
+
+
+
+
+.task-card-title:hover {
+  color: #4CAF50;
+}
+
+
+.task-card-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  flex-direction: row;
+  align-content: stretch;
+  align-items: baseline;
+}
+
+
+
+.task-card-link {
+  color: #4CAF50;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+
+.task-card-delete-button {
+  padding: 5px 10px;
+  color: #ffffff;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+ 
+}
+
+.task-category{
+  color: black;
+}
+
+.task-priority{
+  color: black;
 }

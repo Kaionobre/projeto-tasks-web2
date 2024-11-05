@@ -1,11 +1,43 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useEffect } from 'react';
 import api from '../api';
 import '../styles/CreateCategory.css';  
 
 function CreateCategory() {
   const [name, setName] = useState('');
+  const [categories, setCategories] = useState([]); // Inicialize como array vazio
   const navigate = useNavigate();
+
+  const handleDelete = async (categoryid) => {
+    try {
+      await api.delete(`/categories/${categoryid}/`);
+      const updatedCategories = categories.filter(category => category.id !== categoryid);
+      setCategories(updatedCategories);
+    } catch (error) {
+      console.error('Erro ao deletar prioridade:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Função para buscar categorias do backend
+    const fetchCategories = async () => {
+      try {
+        const response = await api.get('/categories/');
+        
+        // Certifique-se de que a resposta é um array
+        if (Array.isArray(response.data.results)) {
+          setCategories(response.data.results); // Atualiza o estado com a lista de categorias
+        } else {
+          console.error('Resposta inesperada da API:', response.data);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar categorias:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,8 +67,22 @@ function CreateCategory() {
           </Link>
         </div>
       </form>
+
+      {/* Lista de categorias */}
+      <div className="task-card-container"> 
+       {categories.map(category => (
+    <div key={category.id} className="task-card">
+      <div className="task-card-title">
+        {category.name}
+      </div>
+      <div className="task-card-actions">
+        <button onClick={() => handleDelete(category.id)} className="task-card-link">Deletar</button>
+      </div>
+    </div>
+  ))}
+</div>
+
     </div>
   );
 }
-
 export default CreateCategory;

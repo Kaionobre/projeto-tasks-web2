@@ -19,6 +19,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = models.Category.objects.all()
+    queryset = models.Category.objects.filter(is_active=True)
     serializer_class = CategorySerializer
     permission_classes = [permissions.IsAuthenticated]
     def create(self, request, *args, **kwargs):
@@ -29,6 +30,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 class PriorityViewSet(viewsets.ModelViewSet):
     queryset = models.Priority.objects.all()
+    queryset = models.Priority.objects.filter(is_active=True)
     serializer_class = PrioritySerializer
     permission_classes = [permissions.IsAuthenticated]
 

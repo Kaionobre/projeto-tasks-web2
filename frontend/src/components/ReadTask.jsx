@@ -16,7 +16,7 @@ function ReadTask() {
   // Define estados para armazenar o título, conteúdo e imagem da task.
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
-  const [image, setImage] = useState('')
+  
 
   // Efeito que é executado quando o taskId é alterado.
   useEffect(() => {
@@ -26,7 +26,6 @@ function ReadTask() {
         // Atualiza o estado com os detalhes da task obtidos da API.
         setTitle(response.data.title)
         setDescription(response.data.description)
-        setImage(response.data.image)
       })
       .catch(error => {
         console.error('Erro ao buscar detalhes da task:', error)
@@ -36,18 +35,12 @@ function ReadTask() {
   // Retorna a interface do componente ReadTask.
   return (
     <div className="read-task-container">
-      {/* Título da página */}
-      <h1>Detalhes da Task</h1>
-      {/* Link para voltar para a lista de tasks */}
+      <h1>Detalhes da Task</h1>  
+      <h2>{title}</h2>
+      <p>{description}</p>
       <Link to="/tasks" >
         <button type="button" className="back-button">Voltar para Listagem</button>
       </Link>
-      {/* Título da task */}
-      <h2>{title}</h2>
-      {/* Conteúdo da task */}
-      <p>{description}</p>
-      {/* Imagem da task, se existir */}
-      {image && <img src={image} alt="Imagem da Task" className="task-image" />}
     </div>
   )
 }

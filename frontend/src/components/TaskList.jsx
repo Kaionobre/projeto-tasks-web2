@@ -44,10 +44,6 @@ function TaskList() {
   return (
     <div className="task-list-container">
      
-      <div class="navbar">
-            <a href="#criar-task">Listar Task</a>
-            <a href="#criar-categoria">Listar Categoria</a>
-            <a href="#sair">Listar Prioridade</a></div>
       {/* Cabeçalho da lista de tasks com um botão para criar uma nova task */}
       <div className="header">
         <h1>Sistema Gerenciador de Tarefas</h1>
@@ -62,22 +58,21 @@ function TaskList() {
         </div>
       </div>
       {/* Lista de tasks */}
-      <ul>
-        {/* Mapeia cada task na lista de tasks e renderiza um item de lista para cada uma */}
+      <div className="task-card-container">
         {tasks.map(task => (
-          <li key={task.id} className="task-item">
-            {/* Link para os detalhes da task */}
-            <Link to={`/tasks/${task.id}/detail`} className="task-link-name">{task.title}</Link>
-            {/* Botões de ação para editar e excluir a task */}
-            <div className="actions">
-              <Link to={`/tasks/${task.id}/edit`} className="task-link">Editar</Link>
-              <button onClick={() => handleDelete(task.id)} className="delete-button">Deletar</button>
+          <div key={task.id} className="task-card">
+            <Link to={`/tasks/${task.id}/detail`} className="task-card-title">
+              {task.title}
+            </Link>
+            <div className="task-category">Categoria: {task.category_name || 'Sem Categoria'}</div>
+            <div className="task-priority">Prioridade: {task.priority_level || 'Sem Prioridade'}</div>
+            <div className="task-card-actions">
+              <Link to={`/tasks/${task.id}/edit`} className="task-card-link">Editar</Link>
+              <button onClick={() => handleDelete(task.id)} className="task-card-link">Deletar</button>
             </div>
-       
-          </li>
-         
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   )
 }

@@ -44,3 +44,8 @@
 2024-11-05 11:53:54,103 -INFO - viewsets - Categoria criada: Esporte
 2024-11-05 14:24:42,951 -INFO - viewsets - Categoria criada: AR
 2024-11-05 14:24:55,244 -INFO - viewsets - Prioridade criada: TV
+2024-11-05 18:46:10,599 -INFO - viewsets - Tarefa criada: Atividade - Categoria: Estudo - Prioridade: Difícil
+2024-11-05 18:46:54,767 -INFO - viewsets - Categoria criada: Dia a Dia
+2024-11-05 18:47:11,702 -INFO - viewsets - Prioridade criada: Urgente
+2024-11-22 14:15:42,624 -INFO - viewsets - Tarefa criada: Finalizar documentação - Categoria: Estudo - Prioridade: Médio
+2024-11-22 14:17:05,420 -INFO - viewsets - Tarefa criada: Finalizar o projeto - Categoria: Estudo - Prioridade: Médio

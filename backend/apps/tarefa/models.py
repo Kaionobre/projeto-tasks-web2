@@ -41,12 +41,18 @@ class Priority(SoftDeleteModel):
         return self.level
 
 
+from django.contrib.auth.models import User, Group
+
 class Task(SoftDeleteModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
     completed = models.BooleanField(default=False)
     category = models.ForeignKey(Category, related_name='tasks', on_delete=models.CASCADE)
     priority = models.ForeignKey(Priority, related_name='tasks', on_delete=models.CASCADE)
+    prazo = models.DateField(null=True, blank=True, verbose_name="Prazo de Conclusão")
+    analista = models.ForeignKey(User, null=True, blank=True, related_name='tasks', on_delete=models.SET_NULL)
+    equipe_desenvolvimento = models.ForeignKey(Group, null=True, blank=True, related_name='group_tasks', on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.title
+

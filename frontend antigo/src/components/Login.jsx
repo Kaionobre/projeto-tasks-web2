@@ -50,6 +50,5 @@ function Login() {
   )
 }
 
-
 // Exporta o componente Login
 export default Login

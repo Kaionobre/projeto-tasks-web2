@@ -2,6 +2,8 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "./styles.css";
+import { useRouter } from "next/navigation"; // Para redirecionar após login
+
 
 interface Category {
   id: number;
@@ -22,6 +24,9 @@ export default function CreateTaskPage() {
   const [priorities, setPriorities] = useState<Priority[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const router = useRouter();
+
+
 
 
   // Buscar categorias e prioridades
@@ -107,12 +112,23 @@ export default function CreateTaskPage() {
       setError("Erro inesperado. Tente novamente.");
     }
   };
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setError(""); // Limpa mensagens de erro
+    setSuccess(""); // Limpa mensagens de sucesso
+    window.location.href = "/login"; // Redireciona para a página de login
+  };
+  const handleTask = () => {
+    router.push("/tasks"); // Redireciona para a página de login
+  };
+  
 
   return (
     
+    
     <div className="container">
-      <aside>
-        <button className="logout-button">LOG OUT</button>
+        <aside>
+        <button className="logout-button" onClick={handleLogout} >LOG OUT</button>
       </aside>
       <main>
         <div className="user-badge">George</div>
@@ -207,7 +223,7 @@ export default function CreateTaskPage() {
           </div>
           <div>
             <button>
-              <a href="#" className="btn-back">
+              <a href="#" className="btn-back" onClick={handleTask}>
                 Voltar para tela inicial
               </a>
             </button>

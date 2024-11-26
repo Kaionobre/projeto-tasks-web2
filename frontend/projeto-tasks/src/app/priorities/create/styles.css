@@ -1,0 +1,127 @@
+.container {
+    display: flex;
+  }
+
+h1{
+    font-weight: bold;
+    font-size: xx-large;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+
+h2{
+    font-weight: bold;
+    font-size: x-large;
+    padding: 10px;
+}
+
+
+aside {
+    background-color: #A5F0AF;
+    padding: 1rem;
+    width: 20%;
+    min-height: 100vh;
+  }
+  
+.logout-button {
+    position: fixed; 
+    bottom: 10px; 
+    left: 4.8%;
+    background: white;
+    color: black;
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+main {
+    padding: 2rem;
+    width: 80%;
+  }
+  
+.user-badge {
+    background: #ADDAFF;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+    color: black;
+  }
+  
+form {
+    background: #D9D9D9;
+    padding: 2rem;
+    border-radius: 10px;
+  }
+  
+form div {
+    margin-bottom: 1rem;
+  }
+  
+form label {
+    display: block;
+    font-weight: bold;
+  }
+  
+form input,form textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-radius: 25px;
+  }
+
+.button-conteiner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-top: 10px;
+}
+
+  
+.save-task-button {
+    background-color: #5cb85c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+  
+.button-conteiner a {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 15px;
+    color: black;
+  }
+  
+.btn-priority {
+    background: #FFEB80;
+    margin-right: 10px;
+    width: 147px;
+    height: 44px;
+    border-radius: 20px;
+  }
+  
+.btn-category {
+    background: #CEC5FF;
+    border-radius: 20px;
+  }
+  
+.btn-back {
+    background: #FFBBC2;
+    border-radius: 20px;
+  }
+  
+.error-message {
+    color: red;
+    margin-top: 1rem;
+  }
+  
+.success-message {
+    color: green;
+    margin-top: 1rem;
+  }
+  

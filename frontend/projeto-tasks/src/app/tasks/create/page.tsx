@@ -119,7 +119,7 @@ export default function CreateTaskPage() {
     window.location.href = "/login"; // Redireciona para a página de login
   };
   const handleTask = () => {
-    router.push("/tasks"); // Redireciona para a página de login
+    window.location.href = "/tasks"; // Redireciona para a página de login
   };
   
 

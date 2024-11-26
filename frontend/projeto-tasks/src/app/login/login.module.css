@@ -1,0 +1,133 @@
+.container {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f4f6; /* Fundo cinza claro */
+  }
+  
+  
+  .content {
+    display: flex;
+    width: 100%;
+    max-width: 1024px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  
+  
+  .sidebar {
+    flex: 1;
+    background: #3b82f6;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+  
+  
+  .sidebar h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  
+  .sidebar p {
+    font-size: 1rem;
+    opacity: 0.8;
+    text-align: center;
+  }
+  
+  
+  .formContainer {
+    flex: 1;
+    background-color: white;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  
+  .formContainer h1 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  
+  .inputGroup {
+    margin-bottom: 1rem;
+  }
+  
+  
+  .inputGroup label {
+    font-size: 0.875rem;
+    color: #374151;
+  }
+  
+  
+  .inputGroup input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+  
+  
+  .inputGroup input:focus {
+    outline: none;
+    border-color: #3D9ACD;
+  }
+  
+  
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  
+  .buttonGroup button {
+    flex: 1;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+  }
+  
+  
+  .buttonGroup button:first-child {
+    background-color: #68E379;
+  }
+  
+  
+  .buttonGroup button:first-child:hover {
+    background-color: #0fd496;
+  }
+  
+  
+  .buttonGroup button:last-child {
+    background-color: #FFEB80;
+  }
+  
+  
+  .buttonGroup button:last-child:hover {
+    background-color: #f2ea53;
+  }
+  
+  
+  .error {
+    margin-top: 1rem;
+    color: #dc2626;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  

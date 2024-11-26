@@ -7,10 +7,11 @@
 
 .body {
     font-family: Arial, sans-serif;
-    background-color: #ffffff;
+    background-color: #f7f7f7;
     color: #333;
     display: flex;
     min-height: 100vh;
+    height: 100%;
 }
 
 h1{
@@ -32,6 +33,10 @@ header .sidebar {
     align-items: center;
     padding: 20px;
     height: 100vh;
+}
+
+.details{
+    margin-top: 100px;
 }
 
 .sidebar .logout {

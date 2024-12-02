@@ -23,6 +23,7 @@ export default function TaskListPage() {
   const [taskToUpdate, setTaskToUpdate] = useState<Task | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -256,49 +257,24 @@ export default function TaskListPage() {
   {taskToUpdate && (
     <div>
       <h2>Atualizar Tarefa</h2>
-      <label>
-        Título:
-        <input
-          type="text"
-          value={taskToUpdate.title}
-          onChange={(e) =>
-            setTaskToUpdate({ ...taskToUpdate, title: e.target.value })
-          }
-          required
-        />
-      </label>
-      <label>
-        Descrição:
-        <textarea
-          value={taskToUpdate.description}
-          onChange={(e) =>
-            setTaskToUpdate({ ...taskToUpdate, description: e.target.value })
-          }
-          required
-        />
-      </label>
-      <label>
-        Categoria:
-        <input
-          type="text"
-          value={taskToUpdate.category_name}
-          onChange={(e) =>
-            setTaskToUpdate({ ...taskToUpdate, category_name: e.target.value })
-          }
-          required
-        />
-      </label>
-      <label>
-        Prioridade:
-        <input
-          type="text"
-          value={taskToUpdate.priority_level}
-          onChange={(e) =>
-            setTaskToUpdate({ ...taskToUpdate, priority_level: e.target.value })
-          }
-          required
-        />
-      </label>
+      <div className="update-task">
+        <label>
+          Título:
+          <input type="text" className="entradas" value={taskToUpdate.title} onChange={(e) => setTaskToUpdate({ ...taskToUpdate, title: e.target.value }) } required />
+        </label>
+        <label >
+          Descrição:
+          <textarea value={taskToUpdate.description} className="entradas" onChange={(e) => setTaskToUpdate({ ...taskToUpdate, description: e.target.value }) } required />
+        </label>
+        <label>
+          Categoria:
+          <input type="text" value={taskToUpdate.category_name} className="entradas" onChange={(e) => setTaskToUpdate({ ...taskToUpdate, category_name: e.target.value }) } required/>
+        </label>
+        <label>
+          Prioridade:
+          <input type="text" value={taskToUpdate.priority_level} className="entradas" onChange={(e) => setTaskToUpdate({ ...taskToUpdate, priority_level: e.target.value }) } required />
+        </label>
+      </div>
       <div style={{ marginTop: "20px", textAlign: "right" }}>
         <button
           style={styles.confirmButton}

@@ -223,3 +223,48 @@ main.content {
 .new-task{
     margin-top: 20px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    cursor: pointer;
+  }
+  
+  .pagination button.active {
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .pagination button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  
+  .update-task{
+    display: grid;
+  }
+
+  .update-task label{
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+  }
+  .update-task textarea{
+    width: 270px;
+    height: 35px;
+  }
+  .entradas{
+    margin-left: 10px;
+    padding: 10px;
+  }
+
+ 

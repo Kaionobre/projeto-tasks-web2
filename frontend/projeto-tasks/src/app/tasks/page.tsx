@@ -5,6 +5,8 @@ import "./styles.css";
 import { styles } from "./modalStyles";
 import { useRouter } from "next/navigation"; // Para redirecionar após login
 import Modal from "./modal"; // Importa o componente Modal
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
 interface Task {
   id: number;
@@ -23,10 +25,11 @@ export default function TaskListPage() {
   const [taskToUpdate, setTaskToUpdate] = useState<Task | null>(null);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
-
-  // Estados para paginação
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  // Estado para o calendário
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
 
   const router = useRouter();
 
@@ -75,104 +78,14 @@ export default function TaskListPage() {
   };
 
   const handleTask = () => {
-    router.push("/tasks/create"); // Redireciona para a página de login
+    router.push("/tasks/create"); // Redireciona para a página de criação de tarefas
   };
 
-  const openDetailsModal = (task: Task) => {
-    setSelectedTask(task);
-    setIsDetailsOpen(true);
+  const handleDateChange = (date: Date) => {
+    setSelectedDate(date);
+    console.log("Data selecionada:", date);
   };
 
-  const closeDetailsModal = () => {
-    setIsDetailsOpen(false);
-    setSelectedTask(null);
-  };
-
-  const openDeleteModal = (task: Task) => {
-    setSelectedTask(task);
-    setTaskToDelete(task); // Define a tarefa que será excluída
-    setIsDeleteOpen(true);
-  };
-
-  const closeDeleteModal = () => {
-    setIsDeleteOpen(false);
-    setSelectedTask(null);
-  };
-
-  const openUpdateModal = (task: Task) => {
-    setTaskToUpdate(task);
-    setIsUpdateOpen(true);
-  };
-
-  const closeUpdateModal = () => {
-    setTaskToUpdate(null);
-    setIsUpdateOpen(false);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (taskToDelete) {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) throw new Error("Usuário não autenticado.");
-
-        const response = await fetch(
-          `http://127.0.0.1:8000/api/tasks/${taskToDelete.id}/`,
-          {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        if (response.ok) {
-          setTasks((prevTasks) =>
-            prevTasks.filter((task) => task.id !== taskToDelete.id)
-          );
-          closeDeleteModal();
-          setTaskToDelete(null);
-        } else {
-          setError("Erro ao excluir a tarefa.");
-        }
-      } catch (err) {
-        setError("Erro inesperado ao excluir a tarefa.");
-      }
-    }
-  };
-
-  const handleUpdateTask = async (updatedTask: Task) => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error("Usuário não autenticado.");
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/tasks/${updatedTask.id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(updatedTask),
-        }
-      );
-
-      if (response.ok) {
-        setTasks((prevTasks) =>
-          prevTasks.map((task) =>
-            task.id === updatedTask.id ? updatedTask : task
-          )
-        );
-        closeUpdateModal();
-      } else {
-        const errorResponse = await response.json();
-        setError(errorResponse.detail || "Erro ao atualizar a tarefa.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Erro inesperado ao atualizar a tarefa.");
-    }
-  };
-
-  // Funções de paginação
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       fetchTasks(currentPage + 1);
@@ -204,17 +117,15 @@ export default function TaskListPage() {
         <section className="tasks-calendar">
           <div className="tasks">
             <h2>Atividades:</h2>
-                  {/* Controles de Paginação */}
-
             <div className="task-grid">
               {tasks.length === 0 ? (
                 <p>Nenhuma tarefa encontrada.</p>
               ) : (
                 tasks.map((task) => (
                   <article className="task" key={task.id}>
-                    <h3 onClick={() => openDetailsModal(task)}>{task.title}</h3>
-                    <button onClick={() => openDeleteModal(task)}>Excluir</button>
-                    <button onClick={() => openUpdateModal(task)}>Editar</button>
+                    <h3 onClick={() => setSelectedTask(task)}>{task.title}</h3>
+                    <button onClick={() => setTaskToDelete(task)}>Excluir</button>
+                    <button onClick={() => setTaskToUpdate(task)}>Editar</button>
                     <div
                       className={`status ${
                         task.priority_level === "Alta"
@@ -232,7 +143,7 @@ export default function TaskListPage() {
           <aside className="calendar">
             <h2>Calendário</h2>
             <div className="calendar-container">
-              <p>Colocar o calendário neste espaço</p>
+              <Calendar onChange={handleDateChange} value={selectedDate} />
             </div>
           </aside>
         </section>
@@ -242,127 +153,30 @@ export default function TaskListPage() {
             <button className="btn purple">Criar Categoria</button>
           </div>
           <div className="pagination">
-              <button
-                disabled={currentPage === 1}
-                onClick={handlePreviousPage}
-                className="btn"
-              >
-                Anterior
-              </button>
-              <span>
-                Página {currentPage} de {totalPages}
-              </span>
-              <button
-                disabled={currentPage === totalPages}
-                onClick={handleNextPage}
-                className="btn"
-              >
-                Próxima
-              </button>
-            </div>
+            <button
+              disabled={currentPage === 1}
+              onClick={handlePreviousPage}
+              className="btn"
+            >
+              Anterior
+            </button>
+            <span>
+              Página {currentPage} de {totalPages}
+            </span>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={handleNextPage}
+              className="btn"
+            >
+              Próxima
+            </button>
+          </div>
           <div className="add-task">
             <button className="btn red" onClick={handleTask}>
               Adicionar nova atividade
             </button>
           </div>
         </section>
-
-        {/* Modais */}
-        <Modal isOpen={isDetailsOpen} onClose={closeDetailsModal}>
-          {selectedTask && (
-            <div>
-              <h2>{selectedTask.title}</h2>
-              <p>{selectedTask.description}</p>
-              <p>Categoria: {selectedTask.category_name}</p>
-              <p>Prioridade: {selectedTask.priority_level}</p>
-            </div>
-          )}
-        </Modal>
-
-        <Modal
-          isOpen={isDeleteOpen}
-          onClose={() => setIsDeleteOpen(false)}
-          onConfirm={handleConfirmDelete}
-        >
-          <p>
-            Tem certeza que deseja excluir a tarefa{" "}
-            <strong>{taskToDelete?.title}</strong>?
-          </p>
-        </Modal>
-
-        <Modal isOpen={isUpdateOpen} onClose={closeUpdateModal}>
-          {taskToUpdate && (
-            <div>
-              <h2>Atualizar Tarefa</h2>
-              <label>
-                Título:
-                <input
-                  type="text"
-                  className="entradas"
-                  value={taskToUpdate.title}
-                  onChange={(e) =>
-                    setTaskToUpdate({ ...taskToUpdate, title: e.target.value })
-                  }
-                />
-              </label>
-              <label>
-                Descrição:
-                <textarea
-                  className="entradas"
-                  value={taskToUpdate.description}
-                  onChange={(e) =>
-                    setTaskToUpdate({
-                      ...taskToUpdate,
-                      description: e.target.value,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Categoria:
-                <input
-                  type="text"
-                  className="entradas"
-                  value={taskToUpdate.category_name}
-                  onChange={(e) =>
-                    setTaskToUpdate({
-                      ...taskToUpdate,
-                      category_name: e.target.value,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Prioridade:
-                <input
-                  type="text"
-                  className="entradas"
-                  value={taskToUpdate.priority_level}
-                  onChange={(e) =>
-                    setTaskToUpdate({
-                      ...taskToUpdate,
-                      priority_level: e.target.value,
-                    })
-                  }
-                />
-              </label>
-              <div style={{ marginTop: "20px", textAlign: "right" }}>
-                <button
-                  style={styles.confirmButton}
-                  onClick={() => handleUpdateTask(taskToUpdate)}
-                >
-                  Atualizar
-                </button>
-                <button
-                  style={styles.cancelButton}
-                  onClick={closeUpdateModal}
-                >
-                  Cancelar
-                </button>
-              </div>
-            </div>
-          )}
-        </Modal>
       </main>
     </div>
   );

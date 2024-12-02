@@ -24,39 +24,48 @@ export default function TaskListPage() {
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
 
+  // Estados para paginação
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const router = useRouter();
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      setError("");
+  const fetchTasks = async (page = 1) => {
+    setError("");
 
-      const token = localStorage.getItem("token");
-      if (!token) {
-        setError("Usuário não autenticado.");
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Usuário não autenticado.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/tasks/?page=${page}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(
+          errorData.detail || "Erro ao carregar as tarefas. Tente novamente."
+        );
         return;
       }
 
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/tasks/", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+      const tasksData = await response.json();
+      setTasks(tasksData.results || tasksData);
+      setCurrentPage(page);
+      setTotalPages(Math.ceil(tasksData.count / 6)); // Supondo 6 itens por página
+    } catch (err) {
+      console.error(err);
+      setError("Erro inesperado ao carregar as tarefas.");
+    }
+  };
 
-        if (!response.ok) {
-          const errorData = await response.json();
-          setError(
-            errorData.detail || "Erro ao carregar as tarefas. Tente novamente."
-          );
-          return;
-        }
-
-        const tasksData = await response.json();
-        setTasks(tasksData.results || tasksData); // Ajuste se o backend retornar "results"
-      } catch (err) {
-        console.error(err);
-        setError("Erro inesperado ao carregar as tarefas.");
-      }
-    };
-
+  useEffect(() => {
     fetchTasks();
   }, []);
 
@@ -92,10 +101,9 @@ export default function TaskListPage() {
 
   const openUpdateModal = (task: Task) => {
     setTaskToUpdate(task);
-    setTaskToUpdate(task); // Define a tarefa que será excluída
     setIsUpdateOpen(true);
   };
-  
+
   const closeUpdateModal = () => {
     setTaskToUpdate(null);
     setIsUpdateOpen(false);
@@ -129,11 +137,12 @@ export default function TaskListPage() {
       }
     }
   };
+
   const handleUpdateTask = async (updatedTask: Task) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) throw new Error("Usuário não autenticado.");
-  
+
       const response = await fetch(
         `http://127.0.0.1:8000/api/tasks/${updatedTask.id}/`,
         {
@@ -145,7 +154,7 @@ export default function TaskListPage() {
           body: JSON.stringify(updatedTask),
         }
       );
-  
+
       if (response.ok) {
         setTasks((prevTasks) =>
           prevTasks.map((task) =>
@@ -163,6 +172,18 @@ export default function TaskListPage() {
     }
   };
 
+  // Funções de paginação
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      fetchTasks(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      fetchTasks(currentPage - 1);
+    }
+  };
 
   return (
     <div className="body">
@@ -183,17 +204,17 @@ export default function TaskListPage() {
         <section className="tasks-calendar">
           <div className="tasks">
             <h2>Atividades:</h2>
+                  {/* Controles de Paginação */}
+
             <div className="task-grid">
               {tasks.length === 0 ? (
                 <p>Nenhuma tarefa encontrada.</p>
               ) : (
                 tasks.map((task) => (
                   <article className="task" key={task.id}>
-                    <h3 onClick={() => openDetailsModal(task)} >{task.title}</h3>
-                    <button onClick={() => openDeleteModal(task)}>
-                    Excluir
-                  </button>
-                  <button onClick={() => openUpdateModal(task)}>Editar</button>
+                    <h3 onClick={() => openDetailsModal(task)}>{task.title}</h3>
+                    <button onClick={() => openDeleteModal(task)}>Excluir</button>
+                    <button onClick={() => openUpdateModal(task)}>Editar</button>
                     <div
                       className={`status ${
                         task.priority_level === "Alta"
@@ -220,79 +241,129 @@ export default function TaskListPage() {
             <button className="btn yellow">Criar nova Prioridade</button>
             <button className="btn purple">Criar Categoria</button>
           </div>
+          <div className="pagination">
+              <button
+                disabled={currentPage === 1}
+                onClick={handlePreviousPage}
+                className="btn"
+              >
+                Anterior
+              </button>
+              <span>
+                Página {currentPage} de {totalPages}
+              </span>
+              <button
+                disabled={currentPage === totalPages}
+                onClick={handleNextPage}
+                className="btn"
+              >
+                Próxima
+              </button>
+            </div>
           <div className="add-task">
             <button className="btn red" onClick={handleTask}>
               Adicionar nova atividade
             </button>
-            <button className="btn green"></button>
           </div>
         </section>
-      </main>
 
-      {/* Modal para mostrar os detalhes da tarefa */}
-      <Modal isOpen={isDetailsOpen} onClose={closeDetailsModal}>
-        {selectedTask && (
-          <div>
-            <h2>{selectedTask.title}</h2>
-            <p>{selectedTask.description}</p>
-            <p>Categoria: {selectedTask.category_name}</p>
-            <p>Prioridade: {selectedTask.priority_level}</p>
-          </div>
-        )}
-      </Modal>
+        {/* Modais */}
+        <Modal isOpen={isDetailsOpen} onClose={closeDetailsModal}>
+          {selectedTask && (
+            <div>
+              <h2>{selectedTask.title}</h2>
+              <p>{selectedTask.description}</p>
+              <p>Categoria: {selectedTask.category_name}</p>
+              <p>Prioridade: {selectedTask.priority_level}</p>
+            </div>
+          )}
+        </Modal>
 
-        {/* Modal de Confirmação */}
         <Modal
-        isOpen={isDeleteOpen}
-        onClose={() => setIsDeleteOpen(false)}
-        onConfirm={handleConfirmDelete}
-      >
-        <p>
-          Tem certeza que deseja excluir a tarefa{" "}
-          <strong>{taskToDelete?.title}</strong>?
-        </p>
-      </Modal>
-
-      <Modal isOpen={isUpdateOpen} onClose={closeUpdateModal}>
-  {taskToUpdate && (
-    <div>
-      <h2>Atualizar Tarefa</h2>
-      <div className="update-task">
-        <label>
-          Título:
-          <input type="text" className="entradas" value={taskToUpdate.title} onChange={(e) => setTaskToUpdate({ ...taskToUpdate, title: e.target.value }) } required />
-        </label>
-        <label >
-          Descrição:
-          <textarea value={taskToUpdate.description} className="entradas" onChange={(e) => setTaskToUpdate({ ...taskToUpdate, description: e.target.value }) } required />
-        </label>
-        <label>
-          Categoria:
-          <input type="text" value={taskToUpdate.category_name} className="entradas" onChange={(e) => setTaskToUpdate({ ...taskToUpdate, category_name: e.target.value }) } required/>
-        </label>
-        <label>
-          Prioridade:
-          <input type="text" value={taskToUpdate.priority_level} className="entradas" onChange={(e) => setTaskToUpdate({ ...taskToUpdate, priority_level: e.target.value }) } required />
-        </label>
-      </div>
-      <div style={{ marginTop: "20px", textAlign: "right" }}>
-        <button
-          style={styles.confirmButton}
-          onClick={() => handleUpdateTask(taskToUpdate)}
+          isOpen={isDeleteOpen}
+          onClose={() => setIsDeleteOpen(false)}
+          onConfirm={handleConfirmDelete}
         >
-          Atualizar
-        </button>
-        <button
-          style={styles.cancelButton}
-          onClick={closeUpdateModal}
-        >
-          Cancelar
-        </button>
-      </div>
-    </div>
-  )}
-</Modal>
+          <p>
+            Tem certeza que deseja excluir a tarefa{" "}
+            <strong>{taskToDelete?.title}</strong>?
+          </p>
+        </Modal>
 
+        <Modal isOpen={isUpdateOpen} onClose={closeUpdateModal}>
+          {taskToUpdate && (
+            <div>
+              <h2>Atualizar Tarefa</h2>
+              <label>
+                Título:
+                <input
+                  type="text"
+                  className="entradas"
+                  value={taskToUpdate.title}
+                  onChange={(e) =>
+                    setTaskToUpdate({ ...taskToUpdate, title: e.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Descrição:
+                <textarea
+                  className="entradas"
+                  value={taskToUpdate.description}
+                  onChange={(e) =>
+                    setTaskToUpdate({
+                      ...taskToUpdate,
+                      description: e.target.value,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Categoria:
+                <input
+                  type="text"
+                  className="entradas"
+                  value={taskToUpdate.category_name}
+                  onChange={(e) =>
+                    setTaskToUpdate({
+                      ...taskToUpdate,
+                      category_name: e.target.value,
+                    })
+                  }
+                />
+              </label>
+              <label>
+                Prioridade:
+                <input
+                  type="text"
+                  className="entradas"
+                  value={taskToUpdate.priority_level}
+                  onChange={(e) =>
+                    setTaskToUpdate({
+                      ...taskToUpdate,
+                      priority_level: e.target.value,
+                    })
+                  }
+                />
+              </label>
+              <div style={{ marginTop: "20px", textAlign: "right" }}>
+                <button
+                  style={styles.confirmButton}
+                  onClick={() => handleUpdateTask(taskToUpdate)}
+                >
+                  Atualizar
+                </button>
+                <button
+                  style={styles.cancelButton}
+                  onClick={closeUpdateModal}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          )}
+        </Modal>
+      </main>
     </div>
   );
 }

@@ -61,6 +61,9 @@ export default function CreateCategoryPage() {
   const handleTask = () => {
     window.location.href = "/tasks"; 
   };
+  const handleCateg = () => {
+    window.location.href = "/categories"; // Redireciona para a página de login
+  };
 
   return (
     <div className="container">
@@ -100,7 +103,7 @@ export default function CreateCategoryPage() {
         </form>
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
-        <h2>Adicionar nova Task</h2>
+        <br />
         <div className="button-conteiner">
           <div>
             <span>
@@ -111,9 +114,9 @@ export default function CreateCategoryPage() {
               </button>
             </span>
             <span>
-              <button>
+              <button  onClick={handleCateg} >
                 <a href="#" className="btn-category">
-                  Criar Categoria
+                  Ver Categorias
                 </a>
               </button>
             </span>

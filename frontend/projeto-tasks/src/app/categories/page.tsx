@@ -2,19 +2,20 @@
 import React, { useState, useEffect } from "react";
 import "./styles.css";
 
-interface Priority {
+interface Category {
   id: number;
-  level: string;
+  name: string;
   description: string;
 }
 
-export default function PrioritiesPage() {
-  const [priorities, setPriorities] = useState<Priority[]>([]);
+export default function CategoriesPage() {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [categoryToUpdate, setCategoryToUpdate] = useState<Category | null>(null);
 
-  // Função para buscar as prioridades
-  const fetchPriorities = async () => {
+  const fetchCategories = async () => {
     setError("");
     const token = localStorage.getItem("token");
     if (!token) {
@@ -23,7 +24,7 @@ export default function PrioritiesPage() {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/priorities/", {
+      const response = await fetch("http://127.0.0.1:8000/api/categories/", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -32,22 +33,20 @@ export default function PrioritiesPage() {
       if (!response.ok) {
         const errorData = await response.json();
         setError(
-          errorData.detail ||
-            "Erro ao carregar as prioridades. Tente novamente."
+          errorData.detail || "Erro ao carregar as categorias. Tente novamente."
         );
         return;
       }
 
       const data = await response.json();
-      setPriorities(data.results || data); // Ajuste se a API retornar um objeto com "results"
+      setCategories(data.results || data); // Ajuste aqui se a API usa "results"
     } catch (err) {
       console.error(err);
-      setError("Erro inesperado ao carregar as prioridades.");
+      setError("Erro inesperado ao carregar as categorias.");
     }
   };
 
-  // Função para excluir uma prioridade
-  const handleDeletePriority = async (id: number) => {
+  const handleDeleteCategory = async (id: number) => {
     setError("");
     setSuccess("");
 
@@ -59,7 +58,7 @@ export default function PrioritiesPage() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/priorities/${id}/`,
+        `http://127.0.0.1:8000/api/categories/${id}/`,
         {
           method: "DELETE",
           headers: {
@@ -71,54 +70,171 @@ export default function PrioritiesPage() {
       if (!response.ok) {
         const errorData = await response.json();
         setError(
-          errorData.detail ||
-            "Erro ao excluir a prioridade. Tente novamente."
+          errorData.detail || "Erro ao excluir a categoria. Tente novamente."
         );
         return;
       }
 
-      setSuccess("Prioridade excluída com sucesso!");
-      setPriorities((prevPriorities) =>
-        prevPriorities.filter((priority) => priority.id !== id)
+      setSuccess("Categoria excluída com sucesso!");
+      setCategories((prevCategories) =>
+        prevCategories.filter((category) => category.id !== id)
       );
     } catch (err) {
       console.error(err);
-      setError("Erro inesperado ao excluir a prioridade.");
+      setError("Erro inesperado ao excluir a categoria.");
+    }
+  };
+
+  const handleUpdateCategory = async (id: number, updatedData: Partial<Category>) => {
+    setError("");
+    setSuccess("");
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Usuário não autenticado.");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/categories/${id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(
+          errorData.detail ||
+            "Erro ao atualizar a categoria. Tente novamente."
+        );
+        return;
+      }
+
+      const updatedCategory = await response.json();
+      setSuccess("Categoria atualizada com sucesso!");
+      setCategories((prevCategories) =>
+        prevCategories.map((category) =>
+          category.id === id ? updatedCategory : category
+        )
+      );
+      setIsUpdateOpen(false);
+      setCategoryToUpdate(null);
+    } catch (err) {
+      console.error(err);
+      setError("Erro inesperado ao atualizar a categoria.");
     }
   };
 
   useEffect(() => {
-    fetchPriorities();
+    fetchCategories();
   }, []);
+
+  const handleCateg = () => {
+    window.location.href = "/categories/create"; // Redireciona para a página de login
+  };
 
   return (
     <div className="container">
       <header>
-        <h1>Lista de Prioridades</h1>
+        <h1>Lista de Categorias</h1>
       </header>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
       <section>
-        {priorities.length === 0 ? (
-          <p>Nenhuma prioridade encontrada.</p>
-        ) : (
-          <ul className="priorities-list">
-            {priorities.map((priority) => (
-              <li key={priority.id} className="priority-item">
+        {Array.isArray(categories) && categories.length > 0 ? (
+          <ul className="categories-list">
+            {categories.map((category) => (
+              <li key={category.id} className="category-item">
                 <div>
-                  <strong>{priority.level}</strong>: {priority.description}
+                  <strong>{category.name}</strong>: {category.description}
                 </div>
                 <button
                   className="delete-button"
-                  onClick={() => handleDeletePriority(priority.id)}
+                  onClick={() => handleDeleteCategory(category.id)}
                 >
                   Excluir
                 </button>
+                <button
+                  className="update-button"
+                  onClick={() => {
+                    setCategoryToUpdate(category);
+                    setIsUpdateOpen(true);
+                  }}
+                >
+                  Editar
+                </button>
               </li>
+              
             ))}
+            <button onClick={handleCateg} > Criar categoria</button>
           </ul>
+        ) : (
+          <p>Nenhuma categoria encontrada.</p>
         )}
       </section>
+
+      {isUpdateOpen && categoryToUpdate && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>Atualizar Categoria</h2>
+            <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const form = e.target as HTMLFormElement;
+            const name = (form.elements.namedItem("name") as HTMLInputElement).value;
+            const description = (form.elements.namedItem("description") as HTMLInputElement).value;
+
+            handleUpdateCategory(categoryToUpdate.id, {
+              name,
+              description,
+            });
+          }}
+>
+
+              <label>
+                Nome:
+                <input
+                  type="text"
+                  name="name"
+                  defaultValue={categoryToUpdate.name}
+                  required
+                />
+              </label>
+              <label>
+                Descrição:
+                <input
+                  type="text"
+                  name="description"
+                  defaultValue={categoryToUpdate.description}
+                  required
+                />
+              </label>
+              <div className="modal-buttons">
+                <button type="submit" className="save-button">
+                  Salvar
+                </button>
+                <button
+                  type="button"
+                  className="cancel-button"
+                  onClick={() => {
+                    setIsUpdateOpen(false);
+                    setCategoryToUpdate(null);
+                  }}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

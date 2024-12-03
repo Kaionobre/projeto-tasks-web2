@@ -79,6 +79,13 @@ export default function TaskListPage() {
     window.location.href = "/login"; // Redireciona para a página de login
   };
 
+  const handlePrio = () => {
+    window.location.href = "/priorities"; // Redireciona para a página de login
+  };
+  const handleCateg = () => {
+    window.location.href = "/categories"; // Redireciona para a página de login
+  };
+
   const handleTask = () => {
     router.push("/tasks/create"); // Redireciona para a página de criação de tarefas
   };
@@ -155,8 +162,8 @@ export default function TaskListPage() {
         </section>
         <section className="actions">
           <div className="action-buttons">
-            <button className="btn yellow">Criar nova Prioridade</button>
-            <button className="btn purple">Criar Categoria</button>
+            <button className="btn yellow" onClick={handlePrio} > Ver Prioridades</button>
+            <button className="btn purple" onClick={handleCateg}> Ver Categorias</button>
           </div>
           <div className="pagination">
             <button

@@ -63,6 +63,11 @@ export default function CreatePriorityPage() {
     window.location.href = "/tasks"; 
   };
 
+  const handlePrio = () => {
+    window.location.href = "/priorities"; // Redireciona para a página de login
+  };
+
+
   return (
     <div className="container">
       <aside>
@@ -101,22 +106,17 @@ export default function CreatePriorityPage() {
         </form>
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
-        <h2>Adicionar nova Task</h2>
+        <br />
         <div className="button-conteiner">
           <div>
             <span>
-              <button>
+              <button  onClick={handlePrio} >
                 <a href="#" className="btn-priority">
-                  Listar Prioridade
+                  Ver Prioridades
                 </a>
               </button>
             </span>
             <span>
-              <button>
-                <a href="#" className="btn-category">
-                  Excluir Prioridade
-                </a>
-              </button>
             </span>
           </div>
           <div>

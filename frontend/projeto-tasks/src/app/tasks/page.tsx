@@ -5,8 +5,10 @@ import "./styles.css";
 import { styles } from "./modalStyles";
 import { useRouter } from "next/navigation"; // Para redirecionar após login
 import Modal from "./modal"; // Importa o componente Modal
-import Calendar from "react-calendar";
+import dynamic from "next/dynamic"; // Importa dinamicamente o Calendar
 import "react-calendar/dist/Calendar.css";
+
+const Calendar = dynamic(() => import("react-calendar"), { ssr: false }); // Desabilita SSR
 
 interface Task {
   id: number;
@@ -29,7 +31,7 @@ export default function TaskListPage() {
   const [totalPages, setTotalPages] = useState(1);
 
   // Estado para o calendário
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const router = useRouter();
 
@@ -81,9 +83,13 @@ export default function TaskListPage() {
     router.push("/tasks/create"); // Redireciona para a página de criação de tarefas
   };
 
-  const handleDateChange = (date: Date) => {
-    setSelectedDate(date);
-    console.log("Data selecionada:", date);
+  const handleDateChange = (value: Date | Date[] | null) => {
+    if (value instanceof Date) {
+      setSelectedDate(value);
+      console.log("Data selecionada:", value);
+    } else {
+      console.log("Data inválida ou múltiplas datas selecionadas.");
+    }
   };
 
   const handleNextPage = () => {

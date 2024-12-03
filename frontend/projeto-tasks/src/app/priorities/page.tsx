@@ -211,15 +211,6 @@ export default function PrioritiesPage() {
                   required
                 />
               </label>
-              <label>
-                Descrição:
-                <input
-                  type="text"
-                  name="description"
-                  defaultValue={priorityToUpdate.description}
-                  required
-                />
-              </label>
               <div className="modal-buttons">
                 <button type="submit" className="save-button">
                   Salvar

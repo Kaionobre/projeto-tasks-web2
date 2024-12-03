@@ -8,7 +8,7 @@
 .body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
-    color: #333;
+    color: #000000;
     display: flex;
     min-height: 100vh;
     height: 100%;
@@ -266,5 +266,34 @@ main.content {
     margin-left: 10px;
     padding: 10px;
   }
+
+  .pagination button {
+    padding: 5px 30px;
+    border: none;
+    border-radius: 25px; 
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    background-color:  #a1e6a7; 
+    color: #333; /* Cor do texto */
+    margin: 0 5px;
+    transition: background-color 0.3s, color 0.3s; 
+  }
+  
+  
+  .pagination button:hover {
+    background-color: #b2d8b5;
+    color: #333;
+  }
+  
+  
+  .pagination button:disabled {
+    background-color: #e5e7eb; 
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.7; 
+  }
+  
 
  

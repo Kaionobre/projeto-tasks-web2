@@ -17,6 +17,7 @@ interface ModalProps {
           <button style={styles.closeButton} onClick={onClose}>
             Fechar
           </button>
+          <br />
           <div>{children}</div>
           {onConfirm && (
             <div style={styles.actions}>

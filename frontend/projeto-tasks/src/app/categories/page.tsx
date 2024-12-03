@@ -155,12 +155,7 @@ export default function CategoriesPage() {
                 <div>
                   <strong>{category.name}</strong>: {category.description}
                 </div>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDeleteCategory(category.id)}
-                >
-                  Excluir
-                </button>
+
                 <button
                   className="update-button"
                   onClick={() => {
@@ -170,15 +165,24 @@ export default function CategoriesPage() {
                 >
                   Editar
                 </button>
+
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteCategory(category.id)}
+                >
+                  Excluir
+                </button>
               </li>
               
             ))}
-            <button onClick={handleCateg} > Criar categoria</button>
           </ul>
         ) : (
           <p>Nenhuma categoria encontrada.</p>
         )}
       </section>
+      
+      <button className="create-button" onClick={handleCateg} > Criar categoria</button>
+
 
       {isUpdateOpen && categoryToUpdate && (
         <div className="modal-overlay">
@@ -189,11 +193,9 @@ export default function CategoriesPage() {
             e.preventDefault();
             const form = e.target as HTMLFormElement;
             const name = (form.elements.namedItem("name") as HTMLInputElement).value;
-            const description = (form.elements.namedItem("description") as HTMLInputElement).value;
 
             handleUpdateCategory(categoryToUpdate.id, {
-              name,
-              description,
+              name
             });
           }}
 >
@@ -204,15 +206,6 @@ export default function CategoriesPage() {
                   type="text"
                   name="name"
                   defaultValue={categoryToUpdate.name}
-                  required
-                />
-              </label>
-              <label>
-                Descrição:
-                <input
-                  type="text"
-                  name="description"
-                  defaultValue={categoryToUpdate.description}
                   required
                 />
               </label>

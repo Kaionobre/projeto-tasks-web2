@@ -91,15 +91,6 @@ export default function CreatePriorityPage() {
               required
             />
           </div>
-          <div>
-            <textarea
-              id="descricao"
-              placeholder="Descrição"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            ></textarea>
-          </div>
           <button type="submit" className="save-task-button">
             Salvar Prioridade
           </button>

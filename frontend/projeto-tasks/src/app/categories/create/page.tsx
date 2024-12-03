@@ -88,15 +88,6 @@ export default function CreateCategoryPage() {
               required
             />
           </div>
-          <div>
-            <textarea
-              id="descricao"
-              placeholder="Descrição"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              required
-            ></textarea>
-          </div>
           <button type="submit" className="save-task-button">
             Salvar Categoria
           </button>
@@ -106,13 +97,6 @@ export default function CreateCategoryPage() {
         <br />
         <div className="button-conteiner">
           <div>
-            <span>
-              <button>
-                <a href="#" className="btn-priority">
-                  Categoria Prioridade
-                </a>
-              </button>
-            </span>
             <span>
               <button  onClick={handleCateg} >
                 <a href="#" className="btn-category">
